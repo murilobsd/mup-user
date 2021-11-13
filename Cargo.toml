@@ -1,5 +1,6 @@
 [workspace]
 members = [
   "adapters/rest",
+  "user-application",
   "user",
 ]
