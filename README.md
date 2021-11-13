@@ -72,6 +72,10 @@ mkdir -p volumes/db-data/
 ```
 
 ```
+cp .env_example .env
+```
+
+```
 docker-compose up
 ```
 
