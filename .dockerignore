@@ -1,0 +1,14 @@
+/helm-chart
+/volumes
+/target
+/terraform
+/helm
+*.md
+committed.toml
+docker-compose.yml
+.env_example
+.git
+.github
+.gitignore
+LICENSE
+.pre-commit-config.yaml
