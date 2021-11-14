@@ -5,8 +5,6 @@ repos:
     - id: check-yaml
       exclude: ^helm-chart/
       stages: [commit]
-    - id: check-json
-      stages: [commit]
     - id: check-toml
       stages: [commit]
     - id: check-merge-conflict
