@@ -4,48 +4,27 @@ use chrono::{DateTime, Utc};
 pub struct UserId(pub String);
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-struct UserInner {
-    /// The id of user
-    id: Option<UserId>,
-    /// The email of user
-    email: String,
-    /// The hashed password of user
-    password: String,
-    /// The first name of user
-    first_name: String,
-    /// The last name of user
-    last_name: String,
-    /// The created date of user
-    created_at: DateTime<Utc>,
-    /// The last date of updated info about
-    updated_at: Option<DateTime<Utc>>,
-    /// The user as admin
-    is_admin: bool,
-}
-
-#[allow(dead_code)]
 pub struct User {
-    inner: UserInner,
+    /// the id of user
+    pub id: Option<UserId>,
+    /// the email of user
+    pub email: String,
+    /// the hashed password of user
+    pub password: String,
+    /// the first name of user
+    pub first_name: String,
+    /// the last name of user
+    pub last_name: String,
+    /// the created date of user
+    pub created_at: DateTime<Utc>,
+    /// the last date of updated info about
+    pub updated_at: Option<DateTime<Utc>>,
+    /// the user as admin
+    pub is_admin: bool,
 }
 
 impl User {
     pub fn new_without_id(
-        email: String,
-        password: String,
-        first_name: String,
-        last_name: String,
-        is_admin: bool,
-    ) -> Self {
-        let inner = UserInner::new_without_id(
-            email, password, first_name, last_name, is_admin,
-        );
-
-        Self { inner }
-    }
-}
-
-impl UserInner {
-    fn new_without_id(
         email: String,
         password: String,
         first_name: String,

@@ -1,11 +1,11 @@
-use actix_web::{get, middleware, App, HttpServer};
+mod api;
+mod init;
+mod route;
+mod state;
+
+use actix_web::{middleware, App, HttpServer};
 
 pub struct UserRestServer {}
-
-#[get("/health")]
-async fn health_check() -> &'static str {
-    "pong\r\n"
-}
 
 impl Default for UserRestServer {
     fn default() -> Self {
@@ -18,18 +18,23 @@ impl UserRestServer {
         Self {}
     }
 
-    pub async fn run(&self, addr: &str, port: u16) -> std::io::Result<()> {
-        HttpServer::new(|| {
+    pub async fn run(&self, listen_address: &str) -> std::io::Result<()> {
+        let state = state::initialize();
+
+        println!("Listening to requests at {}...", listen_address);
+
+        HttpServer::new(move || {
             App::new()
+                .data(state.clone())
+                .configure(init::initialize)
                 .wrap(
                     middleware::DefaultHeaders::new()
                         .header("X-Version", "0.1"),
                 )
                 .wrap(middleware::Compress::default())
                 .wrap(middleware::Logger::default())
-                .service(health_check)
         })
-        .bind((addr, port))?
+        .bind(listen_address)?
         .run()
         .await
     }

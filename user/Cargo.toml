@@ -7,5 +7,8 @@ edition = "2018"
 
 [dependencies]
 actix-web = "3.3.2"
+config = "0.11.0"
 env_logger = "0.9.0"
+lazy_static = "1.4.0"
 rest = { path = "../adapters/rest" }
+serde = { version = "1.0.130", features = ["derive"] }

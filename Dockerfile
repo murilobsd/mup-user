@@ -17,5 +17,6 @@ FROM alpine AS runtime
 RUN apk --no-cache add ca-certificates
 RUN addgroup -S mup && adduser -S mup -G mup
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/user /usr/local/bin/
+COPY config.toml .
 USER mup
 CMD ["/usr/local/bin/user"]
