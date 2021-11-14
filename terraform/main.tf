@@ -12,11 +12,11 @@ terraform {
    *  Using S3, DynamoDB to state file and global lock
    *
    *  This key will change depending on the application, for now the default will be:
-   *  "environment/domain/application_name/terraform.state"
+   *  "environment/service/terraform.state"
    */
   backend "s3" {
-    bucket         = "terraform-state-kovi-dev"
-    key            = "dev/customer/signup/terraform.tfstate"
+    bucket         = "mup-terraform-state"
+    key            = "dev/mup-user/terraform.tfstate"
     dynamodb_table = "terraform-state-locking"
     encrypt        = true
     region         = "us-east-1"
