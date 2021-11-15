@@ -33,5 +33,24 @@ services:
     networks:
       - mup-network
 
+  redis:
+    image: redis:6.2.6-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./volumes/redis-data/:/var/lib/redis/data/
+    networks:
+      - mup-network
+
+  rebrow:
+    image: marian/rebrow
+    restart: always
+    ports:
+      - 8082:5001
+    networks:
+      - mup-network
+
+
 networks:
   mup-network:

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at		timestamptz NOT NULL,
     current_login_at	timestamptz DEFAULT NULL,
     current_login_ip	varchar(100) DEFAULT NULL,
-    email		varchar(255) NOT NULL UNIQUE,
+    email		citext NOT NULL UNIQUE,
     last_login_at	timestamptz DEFAULT NULL,
     last_login_ip	varchar(100) DEFAULT NULL,
     login_count		INTEGER DEFAULT 0,
