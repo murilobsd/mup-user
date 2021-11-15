@@ -10,7 +10,7 @@ pub struct NewUserCommand {
 }
 
 impl NewUserCommand {
-    pub fn new_without_id(email: String, password: String) -> Self {
+    pub fn new(email: String, password: String) -> Self {
         Self { email, password }
     }
 }

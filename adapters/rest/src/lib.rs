@@ -1,31 +1,29 @@
 mod api;
 mod init;
 mod route;
-mod state;
+pub mod state;
 
-use actix_web::{middleware, App, HttpServer};
+use actix_web::{middleware, web, App, HttpServer};
 
-pub struct UserRestServer {}
-
-impl Default for UserRestServer {
-    fn default() -> Self {
-        Self::new()
-    }
+#[derive(Clone)]
+pub struct UserRestServer {
+    server_state: state::RestServerState,
 }
 
 impl UserRestServer {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(server_state: state::RestServerState) -> Self {
+        Self { server_state }
     }
 
     pub async fn run(&self, listen_address: &str) -> std::io::Result<()> {
-        let state = state::initialize();
+        let state = self.server_state.clone();
+        let data = web::Data::new(state.clone());
 
         println!("Listening to requests at {}...", listen_address);
 
         HttpServer::new(move || {
             App::new()
-                .data(state.clone())
+                .app_data(data.clone())
                 .configure(init::initialize)
                 .wrap(
                     middleware::DefaultHeaders::new()

@@ -112,3 +112,25 @@ create extension citext;
 [For sql to Rust, you can cast to text: (<thing>::TEXT), for Rust to sql, you can help it figure out that it wants text and then cast it to citext: $1::TEXT::CITEXT](https://github.com/launchbadge/sqlx/issues/295#issuecomment-720100514)
 
 https://argon2.online/
+
+### Benchmark
+
+install drill:
+
+on archlinux:
+
+```
+paru -S drill 
+```
+
+or via cargo:
+
+```
+cargo install drill
+```
+
+execute:
+
+```
+drill-rs --benchmark benchmark.yml --stats
+```
