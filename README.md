@@ -80,3 +80,24 @@ docker-compose up
 ```
 
 [access adminzer (web client) postrgresql](http://localhost:8081)
+
+### Sqlx
+
+
+```
+# install
+cargo install sqlx-cli --no-default-features --features postgres
+
+# create db
+sqlx database create
+sqlx database drop
+
+# migrate
+sqlx migrate add -r <name>
+sqlx migrate run
+sqlx migrate revert
+
+# build off line
+cargo sqlx prepare
+cargo sqlx prepare --check
+```
