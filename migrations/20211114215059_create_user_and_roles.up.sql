@@ -1,5 +1,6 @@
 -- Add migration script here
 
+-- roles table
 CREATE TABLE IF NOT EXISTS roles (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     description		text DEFAULT NULL,
@@ -7,9 +8,9 @@ CREATE TABLE IF NOT EXISTS roles (
     created_at		timestamptz NOT NULL DEFAULT now(),
     updated_at		timestamptz DEFAULT NULL
 );
-
 CREATE INDEX idx_name ON roles(name);
 
+-- users table
 CREATE TABLE IF NOT EXISTS users (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     active		BOOLEAN DEFAULT FALSE,
@@ -21,11 +22,11 @@ CREATE TABLE IF NOT EXISTS users (
     password		VARCHAR(255) NOT NULL,
     salt		VARCHAR(32) NOT NULL
 );
-
 CREATE INDEX idx_email ON users(email);
 CREATE INDEX idx_username ON users(username);
 CREATE INDEX idx_active ON users(active);
 
+-- access table
 CREATE TABLE IF NOT EXISTS access (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     login_count		INTEGER DEFAULT 0,
@@ -39,9 +40,9 @@ CREATE TABLE IF NOT EXISTS access (
 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
 CREATE INDEX idx_user_id ON access(user_id);
 
+-- roles and users table
 CREATE TABLE IF NOT EXISTS roles_users (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     role_id             UUID NOT NULL,
@@ -54,6 +55,10 @@ CREATE TABLE IF NOT EXISTS roles_users (
 
     UNIQUE (role_id, user_id)
 );
+
+--
+-- some default values
+--
 
 -- insert roles
 INSERT INTO
