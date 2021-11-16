@@ -10,8 +10,6 @@ services:
     ports:
       - 8080:8080
     restart: always
-    networks:
-      - mup-network
     depends_on:
       - db
 
@@ -24,16 +22,12 @@ services:
       - 5432:5432
     volumes:
       - ./volumes/db-data/:/var/lib/postgresql/data/
-    networks:
-      - mup-network
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
-    networks:
-      - mup-network
     depends_on:
       - db
 
@@ -44,19 +38,17 @@ services:
       - 6379:6379
     volumes:
       - ./volumes/redis-data/:/var/lib/redis/data/
-    networks:
-      - mup-network
 
   rebrow:
     image: marian/rebrow
     restart: always
     ports:
       - 8082:5001
-    networks:
-      - mup-network
     depends_on:
       - redis
 
 
 networks:
-  mup-network:
+  default:
+    external: true
+    name: mup-network

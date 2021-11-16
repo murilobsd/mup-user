@@ -65,6 +65,12 @@ terraform apply -lock=false
 
 ### Docker-compose
 
+create network
+
+```
+docker network create mup-network
+```
+
 create volumes folder to persite database data
 
 ```

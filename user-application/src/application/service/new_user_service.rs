@@ -18,7 +18,6 @@ impl NewUserService {
     }
 }
 
-#[allow(unused_variables)]
 #[async_trait]
 impl NewUserUseCase for NewUserService {
     async fn new_user(&self, command: &NewUserCommand) -> Result<User> {
