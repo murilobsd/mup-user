@@ -69,6 +69,7 @@ create volumes folder to persite database data
 
 ```
 mkdir -p volumes/db-data/
+mkdir -p volumes/redis-data/
 ```
 
 ```
