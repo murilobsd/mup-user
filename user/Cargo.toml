@@ -16,3 +16,4 @@ serde = { version = "1.0.130", features = ["derive"] }
 persistence = {path = "../adapters/persistence"}
 anyhow = "1.0.45"
 user-application = {path = "../user-application"}
+password = {path = "../adapters/password"}

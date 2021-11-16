@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "adapters/rest",
+  "adapters/password",
   "adapters/persistence",
   "user-application",
   "user",

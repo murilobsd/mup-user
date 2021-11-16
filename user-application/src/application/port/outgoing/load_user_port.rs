@@ -9,5 +9,5 @@ use crate::domain::user::User;
 /// error.
 #[async_trait]
 pub trait LoadUserPort {
-    async fn load_user(&self, email_username: String) -> Result<Option<User>>;
+    async fn load_user(&self, email_username: &str) -> Result<Option<User>>;
 }

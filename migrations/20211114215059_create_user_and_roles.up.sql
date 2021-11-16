@@ -26,9 +26,8 @@ CREATE INDEX idx_email ON users(email);
 CREATE INDEX idx_username ON users(username);
 CREATE INDEX idx_active ON users(active);
 
--- access table
+-- access table (create trigger when create user)
 CREATE TABLE IF NOT EXISTS access (
-    id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     login_count		INTEGER DEFAULT 0,
     updated_at		timestamptz DEFAULT NULL,
     current_login_at	timestamptz DEFAULT NULL,

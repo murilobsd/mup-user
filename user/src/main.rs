@@ -3,6 +3,7 @@ mod config;
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 
+use password::PasswordAdapter;
 use persistence::user_persistence_adapter::UserPersitenceAdapter;
 use rest::state::RestServerState;
 use rest::UserRestServer;
@@ -21,8 +22,11 @@ async fn main() -> std::io::Result<()> {
         .unwrap();
 
     let user_persistence_adapter = UserPersitenceAdapter::new(pool);
-    let new_user_service =
-        NewUserService::new(Box::new(user_persistence_adapter));
+    let password_adapter = PasswordAdapter::new();
+    let new_user_service = NewUserService::new(
+        Box::new(user_persistence_adapter),
+        Box::new(password_adapter),
+    );
     let server_state = RestServerState::new(Arc::new(new_user_service));
 
     let listen_address: String = config::get("listen_address");
