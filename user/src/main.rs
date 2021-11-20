@@ -24,6 +24,7 @@ async fn main() -> std::io::Result<()> {
     let user_persistence_adapter = UserPersitenceAdapter::new(pool);
     let password_adapter = PasswordAdapter::new();
     let new_user_service = NewUserService::new(
+        Box::new(user_persistence_adapter.clone()),
         Box::new(user_persistence_adapter),
         Box::new(password_adapter),
     );

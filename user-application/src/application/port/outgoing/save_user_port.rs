@@ -11,4 +11,3 @@ use crate::domain::user::User;
 pub trait SaveUserPort {
     async fn save_user(&self, user: User) -> Result<User>;
 }
-

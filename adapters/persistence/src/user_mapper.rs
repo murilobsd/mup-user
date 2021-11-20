@@ -22,6 +22,10 @@ impl UserMapper {
             username: user_entity.username,
         }
     }
+
+    pub fn map_to_entity(&self, _user: &User) -> UserEntity {
+        unimplemented!();
+    }
 }
 
 impl Default for UserMapper {
