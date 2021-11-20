@@ -1,4 +1,5 @@
 use super::user_entity::UserEntity;
+use sqlx::types::Uuid;
 use user_application::domain::user::{User, UserId};
 
 #[derive(Clone, Debug)]
@@ -23,8 +24,21 @@ impl UserMapper {
         }
     }
 
-    pub fn map_to_entity(&self, _user: &User) -> UserEntity {
-        unimplemented!();
+    pub fn map_to_entity(&self, user: User) -> UserEntity {
+        let user_id = user.id.map(|id| id.0);
+        let entity_id = user_id.map(|id| Uuid::parse_str(&id).unwrap());
+
+        UserEntity {
+            id: entity_id,
+            email: user.email,
+            salt: user.salt,
+            password: user.password,
+            created_at: user.created_at,
+            confirmed_at: user.confirmed_at,
+            updated_at: user.updated_at,
+            active: user.active,
+            username: user.username,
+        }
     }
 }
 

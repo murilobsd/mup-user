@@ -49,7 +49,39 @@ impl UserRepository {
         }
     }
 
-    pub(crate) async fn save(&self, user: UserEntity) -> Result<UserEntity> {
-        unimplemented!();
+    pub(crate) async fn save(
+        &self,
+        user_entity: UserEntity,
+    ) -> Result<UserEntity> {
+        println!("{:?}", user_entity);
+        let entity = sqlx::query!(
+            r#"
+                INSERT INTO users 
+                    (email, salt, password)
+                VALUES 
+                    ($1::TEXT::CITEXT, $2, $3)
+                RETURNING 
+                    id, email::TEXT, salt, password, created_at, confirmed_at, updated_at, active, username
+            "#,
+            user_entity.email,
+            user_entity.salt,
+            user_entity.password
+        )
+        .fetch_one(&self.pool)
+        .await?;
+
+        let entity = UserEntity {
+            id: Some(entity.id),
+            email: entity.email.unwrap(),
+            salt: entity.salt,
+            password: entity.password,
+            created_at: entity.created_at,
+            confirmed_at: entity.confirmed_at,
+            updated_at: entity.updated_at,
+            active: entity.active.unwrap(),
+            username: entity.username,
+        };
+
+        Ok(entity)
     }
 }

@@ -1,8 +1,10 @@
 use anyhow::Result;
-use argon2::Config;
 use async_trait::async_trait;
-use rand::Rng;
 
+use argon2::{
+    password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
+    Argon2,
+};
 use user_application::application::port::incoming::hash_password_port::HashPasswordPort;
 
 #[derive(Debug, Default, Clone)]
@@ -20,15 +22,15 @@ impl HashPasswordPort for PasswordAdapter {
         &self,
         text_password: &str,
     ) -> Result<(String, String)> {
-        let salt: [u8; 32] = rand::thread_rng().gen();
-        let config = Config::default();
+        let salt = SaltString::generate(&mut OsRng);
+        let argon2 = Argon2::default();
 
-        let hash_password =
-            argon2::hash_encoded(text_password.as_bytes(), &salt, &config)?;
+        let hash_password = argon2
+            .hash_password(text_password.as_bytes(), &salt)
+            .unwrap()
+            .to_string();
 
-        let salt = String::from_utf8_lossy(&salt).into_owned();
-
-        Ok((salt, hash_password))
+        Ok((salt.as_str().to_string(), hash_password))
     }
 }
 

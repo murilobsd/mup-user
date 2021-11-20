@@ -49,7 +49,14 @@ impl LoadUserPort for UserPersitenceAdapter {
 
 #[async_trait]
 impl SaveUserPort for UserPersitenceAdapter {
-    async fn save_user(&self, _user: User) -> Result<User> {
-        unimplemented!();
+    async fn save_user(&self, user: User) -> Result<User> {
+        let user_entity = self
+            .user_repository
+            .save(self.user_mapper.map_to_entity(user))
+            .await?;
+
+        let user = self.user_mapper.map_to_domain(user_entity);
+
+        Ok(user)
     }
 }

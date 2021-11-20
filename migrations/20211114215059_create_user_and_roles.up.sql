@@ -26,7 +26,7 @@ CREATE INDEX idx_email ON users(email);
 CREATE INDEX idx_username ON users(username);
 CREATE INDEX idx_active ON users(active);
 
--- access table (create trigger when create user)
+-- access table (create trigger when create new user)
 CREATE TABLE IF NOT EXISTS access (
     login_count		INTEGER DEFAULT 0,
     updated_at		timestamptz DEFAULT NULL,

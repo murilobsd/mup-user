@@ -31,6 +31,7 @@ impl NewUserService {
     }
 }
 
+// TODO: remove returning new user
 #[async_trait]
 impl NewUserUseCase for NewUserService {
     async fn new_user(&self, command: &NewUserCommand) -> Result<User> {
@@ -56,6 +57,7 @@ impl NewUserUseCase for NewUserService {
                 );
 
                 // save user
+                let user = self.save_user_port.save_user(user).await?;
 
                 Ok(user)
             }

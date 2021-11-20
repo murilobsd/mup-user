@@ -3,15 +3,15 @@ use sqlx::types::{
     Uuid,
 };
 
-#[derive(sqlx::FromRow)]
+#[derive(sqlx::FromRow, Debug)]
 pub struct UserEntity {
     pub id: Option<Uuid>,
+    pub active: bool,
     pub email: String,
+    pub updated_at: Option<DateTime<Utc>>,
+    pub confirmed_at: Option<DateTime<Utc>>,
+    pub created_at: DateTime<Utc>,
+    pub username: Option<String>,
     pub password: String,
     pub salt: String,
-    pub created_at: DateTime<Utc>,
-    pub confirmed_at: Option<DateTime<Utc>>,
-    pub updated_at: Option<DateTime<Utc>>,
-    pub active: bool,
-    pub username: Option<String>,
 }
