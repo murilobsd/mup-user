@@ -2,9 +2,10 @@ use anyhow::Result;
 use async_trait::async_trait;
 use sqlx::postgres::PgPool;
 
+use user_application::application::port::outgoing::get_user_port::GetUserPort;
 use user_application::application::port::outgoing::load_user_port::LoadUserPort;
 use user_application::application::port::outgoing::save_user_port::SaveUserPort;
-use user_application::domain::user::User;
+use user_application::domain::user::{User, UserId};
 
 use crate::user_mapper::UserMapper;
 use crate::user_repository::UserRepository;
@@ -58,5 +59,12 @@ impl SaveUserPort for UserPersitenceAdapter {
         let user = self.user_mapper.map_to_domain(user_entity);
 
         Ok(user)
+    }
+}
+
+#[async_trait]
+impl GetUserPort for UserPersitenceAdapter {
+    async fn get_user(&self, _user_id: UserId) -> Result<User> {
+        unimplemented!()
     }
 }
