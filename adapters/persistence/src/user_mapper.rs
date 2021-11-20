@@ -10,7 +10,7 @@ impl UserMapper {
     }
 
     pub fn map_to_domain(&self, user_entity: UserEntity) -> User {
-        let user = User {
+        User {
             id: Some(UserId(user_entity.id.unwrap().to_string())),
             email: user_entity.email,
             password: user_entity.password,
@@ -20,8 +20,7 @@ impl UserMapper {
             updated_at: user_entity.updated_at,
             active: user_entity.active,
             username: user_entity.username,
-        };
-        user
+        }
     }
 }
 

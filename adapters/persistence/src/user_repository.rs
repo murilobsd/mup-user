@@ -48,4 +48,11 @@ impl UserRepository {
             None => Ok(None),
         }
     }
+
+    pub(crate) async fn save(
+        &self,
+        user: UserEntity,
+    ) -> Result<UserEntity> {
+        unimplemented!();
+    }
 }
