@@ -85,10 +85,8 @@ impl UserRepository {
         Ok(entity)
     }
 
-    pub(crate) async fn get_by_id(
-        &self,
-        user_id: Uuid,
-    ) -> Result<Option<UserEntity>> {
+    // TODO: user_id --> UserIdEntity
+    pub(crate) async fn get_by_id(&self, user_id: Uuid) -> Result<UserEntity> {
         let result = sqlx::query!(
             r#"
                 SELECT id, email::TEXT, salt, password, created_at, confirmed_at, updated_at, active, username
@@ -97,22 +95,19 @@ impl UserRepository {
             "#,
             user_id,
         )
-        .fetch_optional(&self.pool)
+        .fetch_one(&self.pool)
         .await?;
 
-        match result {
-            Some(result) => Ok(Some(UserEntity {
-                id: Some(result.id),
-                email: result.email.unwrap(),
-                salt: result.salt,
-                password: result.password,
-                created_at: result.created_at,
-                confirmed_at: result.confirmed_at,
-                updated_at: result.updated_at,
-                active: result.active.unwrap(),
-                username: result.username,
-            })),
-            None => Ok(None),
-        }
+        Ok(UserEntity {
+            id: Some(result.id),
+            email: result.email.unwrap(),
+            salt: result.salt,
+            password: result.password,
+            created_at: result.created_at,
+            confirmed_at: result.confirmed_at,
+            updated_at: result.updated_at,
+            active: result.active.unwrap(),
+            username: result.username,
+        })
     }
 }

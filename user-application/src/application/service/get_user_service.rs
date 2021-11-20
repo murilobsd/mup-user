@@ -18,7 +18,8 @@ impl GetUserService {
 
 #[async_trait]
 impl GetUserUseCase for GetUserService {
-    async fn get_user(&self, _user_id: UserId) -> Result<User> {
-        unimplemented!();
+    async fn get_user(&self, user_id: UserId) -> Result<User> {
+        let user = self.get_user_port.get_user(user_id).await?;
+        Ok(user)
     }
 }

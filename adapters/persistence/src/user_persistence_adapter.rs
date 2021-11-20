@@ -2,6 +2,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use sqlx::postgres::PgPool;
 
+use sqlx::types::Uuid;
 use user_application::application::port::outgoing::get_user_port::GetUserPort;
 use user_application::application::port::outgoing::load_user_port::LoadUserPort;
 use user_application::application::port::outgoing::save_user_port::SaveUserPort;
@@ -64,7 +65,12 @@ impl SaveUserPort for UserPersitenceAdapter {
 
 #[async_trait]
 impl GetUserPort for UserPersitenceAdapter {
-    async fn get_user(&self, _user_id: UserId) -> Result<User> {
-        unimplemented!()
+    async fn get_user(&self, user_id: UserId) -> Result<User> {
+        let user_id_entity = Uuid::parse_str(&user_id.0)?;
+        let user_entity =
+            self.user_repository.get_by_id(user_id_entity).await?;
+
+        let user = self.user_mapper.map_to_domain(user_entity);
+        Ok(user)
     }
 }

@@ -1,18 +1,35 @@
 use crate::state::RestServerState;
 use actix_web::{web, HttpRequest, HttpResponse};
+use serde::Serialize;
+use user_application::domain::user::{User, UserId};
+
+#[derive(Serialize)]
+pub struct UserResp {
+    email: String,
+}
+
+impl From<User> for UserResp {
+    fn from(u: User) -> Self {
+        Self { email: u.email }
+    }
+}
 
 pub async fn get_user(
     req: HttpRequest,
-    _state: web::Data<RestServerState>,
+    state: web::Data<RestServerState>,
 ) -> HttpResponse {
-    let _user_id = req.match_info().get("user_id").unwrap_or("World");
-    HttpResponse::Ok().content_type("application/json").body("")
-    // match state.new_user_use_case.new_user(&command).await {
-    //     Ok(_) => HttpResponse::Created()
-    //         .content_type("application/json")
-    //         .body(""),
-    //     Err(e) => HttpResponse::BadRequest()
-    //         .content_type("application/json")
-    //         .body(format!("{{\"error\": \"{}\"}}", e.to_string())),
-    // }
+    let user_id = req.match_info().get("user_id").unwrap_or("World");
+    let user_id = UserId(user_id.to_string());
+
+    match state.get_user_use_case.get_user(user_id).await {
+        Ok(u) => {
+            let user_resp = UserResp::from(u);
+            HttpResponse::Ok()
+                .content_type("application/json")
+                .json(user_resp)
+        }
+        Err(e) => HttpResponse::BadRequest()
+            .content_type("application/json")
+            .body(format!("{{\"error\": \"{}\"}}", e.to_string())),
+    }
 }
