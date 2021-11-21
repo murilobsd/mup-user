@@ -14,6 +14,7 @@ lazy_static = "1.4.0"
 rest = { path = "../adapters/rest" }
 serde = { version = "1.0.130", features = ["derive"] }
 persistence = {path = "../adapters/persistence"}
+publish = {path = "../adapters/publish"}
 anyhow = "1.0.45"
 user-application = {path = "../user-application"}
 password = {path = "../adapters/password"}

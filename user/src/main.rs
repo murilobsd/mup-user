@@ -5,8 +5,10 @@ use std::sync::Arc;
 
 use password::PasswordAdapter;
 use persistence::user_persistence_adapter::UserPersitenceAdapter;
+use publish::UserPublisherAdapater;
 use rest::state::RestServerState;
 use rest::UserRestServer;
+
 use user_application::application::service::get_user_service::GetUserService;
 use user_application::application::service::new_user_service::NewUserService;
 
@@ -25,6 +27,7 @@ async fn main() -> std::io::Result<()> {
     // Adapters
     let user_persistence_adapter = UserPersitenceAdapter::new(pool);
     let password_adapter = PasswordAdapter::new();
+    let user_publish = UserPublisherAdapater::new();
 
     // Services
     // New User Service
@@ -32,6 +35,7 @@ async fn main() -> std::io::Result<()> {
         Box::new(user_persistence_adapter.clone()),
         Box::new(user_persistence_adapter.clone()),
         Box::new(password_adapter),
+        Box::new(user_publish),
     );
 
     // Get User Service

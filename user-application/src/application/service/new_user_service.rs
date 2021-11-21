@@ -7,6 +7,7 @@ use crate::application::port::incoming::new_user_use_case::{
     NewUserCommand, NewUserUseCase,
 };
 use crate::application::port::outgoing::load_user_port::LoadUserPort;
+use crate::application::port::outgoing::new_user_publish_port::NewUserPublishPort;
 use crate::application::port::outgoing::save_user_port::SaveUserPort;
 use crate::domain::user::User;
 
@@ -15,6 +16,7 @@ pub struct NewUserService {
     load_user_port: Box<dyn LoadUserPort + Send + Sync>,
     save_user_port: Box<dyn SaveUserPort + Send + Sync>,
     hash_password_port: Box<dyn HashPasswordPort + Send + Sync>,
+    new_user_publish_port: Box<dyn NewUserPublishPort + Send + Sync>,
 }
 
 impl NewUserService {
@@ -22,11 +24,13 @@ impl NewUserService {
         load_user_port: Box<dyn LoadUserPort + Send + Sync>,
         save_user_port: Box<dyn SaveUserPort + Send + Sync>,
         hash_password_port: Box<dyn HashPasswordPort + Send + Sync>,
+        new_user_publish_port: Box<dyn NewUserPublishPort + Send + Sync>,
     ) -> Self {
         Self {
             load_user_port,
             save_user_port,
             hash_password_port,
+            new_user_publish_port,
         }
     }
 }
