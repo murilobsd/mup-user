@@ -8,4 +8,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.47"
 async-trait = "0.1.51"
+lapin = "1.8.1"
+log = "0.4.14"
 user-application = {path = "../../user-application"}

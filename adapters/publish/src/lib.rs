@@ -1,22 +1,6 @@
-use anyhow::Result;
-use async_trait::async_trait;
-use user_application::application::port::outgoing::new_user_publish_port::NewUserPublishPort;
+pub mod user_publisher_adapter;
 
-#[derive(Default, Debug, Clone)]
-pub struct UserPublisherAdapater {}
-
-impl UserPublisherAdapater {
-    pub fn new() -> Self {
-        Self {}
-    }
-}
-
-#[async_trait]
-impl NewUserPublishPort for UserPublisherAdapater {
-    async fn new_user_publish(&self, _email: &str) -> Result<()> {
-        unimplemented!();
-    }
-}
+pub use user_publisher_adapter::UserPublisherAdapter;
 
 #[cfg(test)]
 mod tests {

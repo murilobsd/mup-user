@@ -63,6 +63,8 @@ impl NewUserUseCase for NewUserService {
                 // save user
                 let user = self.save_user_port.save_user(user).await?;
 
+                // notify topic new user
+
                 Ok(user)
             }
         }
