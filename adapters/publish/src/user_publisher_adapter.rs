@@ -6,10 +6,11 @@ use lapin::{
 };
 use log::info;
 use std::time::{SystemTime, UNIX_EPOCH};
+
 use user_application::application::port::outgoing::new_user_publish_port::NewUserPublishPort;
 
 #[derive(Default, Debug, Clone)]
-pub struct NewUserQueue {}
+struct NewUserQueue {}
 
 impl NewUserQueue {
     async fn open(&self) -> Result<Channel> {
@@ -70,7 +71,7 @@ impl UserPublisherAdapter {
 #[async_trait]
 impl NewUserPublishPort for UserPublisherAdapter {
     async fn new_user_publish(&self, _email: &str) -> Result<()> {
-        let msg: Vec<u8> = "ola mundo".chars().collect();
+        let msg: Vec<u8> = String::from("ola mundo").into_bytes();
         self.new_user.publish(msg).await?;
 
         Ok(())
